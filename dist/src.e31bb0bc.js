@@ -117,79 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"css/styles.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/lodash.debounce/index.js":[function(require,module,exports) {
+})({"../node_modules/lodash.debounce/index.js":[function(require,module,exports) {
 var global = arguments[3];
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -569,7 +497,79 @@ function toNumber(value) {
 
 module.exports = debounce;
 
-},{}],"../node_modules/notiflix/build/notiflix-notify-aio.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"css/styles.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/notiflix/build/notiflix-notify-aio.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /*
@@ -1162,156 +1162,115 @@ var global = arguments[3];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
-var BASE_URL = "https://restcountries.com/v2";
-var queryParams = "fields=name,capital,population,flags,languages";
-
-function fetchCountryByName(name) {
-  return fetch("".concat(BASE_URL, "/name/").concat(name, "?").concat(queryParams)).then(function (response) {
-    return response.json();
-  });
-}
-
-var _default = {
-  fetchCountryByName: fetchCountryByName
-};
-exports.default = _default;
-},{}],"getRefs.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getRefs;
-
-function getRefs() {
-  return {
-    inputSearchRef: document.querySelector("#search-box"),
-    countriesListRef: document.querySelector(".country-list"),
-    countryInfoRef: document.querySelector(".country-info")
-  };
-}
-},{}],"markup-functions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _getRefs = _interopRequireDefault(require("./getRefs"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var refs = (0, _getRefs.default)();
-
-function getCountries(data) {
-  var countriesList = data.map(function (_ref) {
-    var flags = _ref.flags,
-        name = _ref.name;
-    return "<li class=\"list__item\">\n                <p class=\"item__container\"><img class=\"list__img\" width='60' height='40' src='".concat(flags.svg, "'/></p>\n                <p class=\"list__text\">").concat(name, "</p>\n          </li>");
-  }).join("");
-  refs.countriesListRef.innerHTML = countriesList;
-}
-
-function getCountryByName(data) {
-  var countryInfo = data.map(function (_ref2) {
-    var flags = _ref2.flags,
-        name = _ref2.name,
-        languages = _ref2.languages,
-        population = _ref2.population,
-        capital = _ref2.capital;
-    return "<div class=\"country__container\">\n              <p class=\"img__container\">\n                <img class=\"country__img\" width='280' height='186' src='".concat(flags.svg, "'/>\n              </p>\n\t\t\t\t\t\t\t\t\t\t<div class=\"country__info\">\n\t\t\t\t\t\t\t\t\t\t\t<p class=\"country__name\">").concat(name, "</p>\n\t\t\t\t\t\t\t\t\t\t\t<p class=\"country__property\">Capital: <span class=\"property__value\">").concat(capital, "</span></p>\n\t\t\t\t\t\t\t\t\t\t\t<p class=\"country__property\">Population: <span class=\"property__value\">").concat(population, "</span></p>\n\t\t\t\t\t\t\t\t\t\t\t<p class=\"country__property\">Languages: <span class=\"property__value\">").concat(languages.map(function (el) {
-      return el.name;
-    }).join(", "), "</span></p>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n          </div>");
-  }).join("");
-  refs.countryInfoRef.innerHTML = countryInfo;
-}
-
-function deleteCountry() {
-  refs.countryInfoRef.innerHTML = "";
-}
-
-function deleteCountries() {
-  refs.countriesListRef.innerHTML = "";
-}
-
-var _default = {
-  getCountries: getCountries,
-  getCountryByName: getCountryByName,
-  deleteCountries: deleteCountries,
-  deleteCountry: deleteCountry
-};
-exports.default = _default;
-},{"./getRefs":"getRefs.js"}],"index.js":[function(require,module,exports) {
-"use strict";
-
-require("./css/styles.css");
-
-var _lodash = _interopRequireDefault(require("lodash.debounce"));
+exports.fetchCountries = fetchCountries;
 
 var _notiflixNotifyAio = require("notiflix/build/notiflix-notify-aio");
 
-var _fetchCountries = _interopRequireDefault(require("./fetchCountries"));
+const ERROR_MSG = 'Oops, there is no country with that name';
+const BASE_URL = 'https://restcountries.com/v3.1/name';
 
-var _getRefs = _interopRequireDefault(require("./getRefs"));
+function fetchCountries(name) {
+  return fetch(`${BASE_URL}/${name}?fields=name,capital,population,flags,languages`).then(res => {
+    if (res.ok) {
+      return res.json();
+    }
 
-var _markupFunctions = _interopRequireDefault(require("./markup-functions"));
+    _notiflixNotifyAio.Notify.failure(`${ERROR_MSG}`, {
+      clickToClose: true
+    });
+
+    throw new Error(res.statusText);
+  });
+}
+},{"notiflix/build/notiflix-notify-aio":"../node_modules/notiflix/build/notiflix-notify-aio.js"}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _lodash = _interopRequireDefault(require("lodash.debounce"));
+
+require("./css/styles.css");
+
+var _fetchCountries = require("./fetchCountries");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEBOUNCE_DELAY = 300;
-var refs = (0, _getRefs.default)();
-refs.inputSearchRef.addEventListener("input", (0, _lodash.default)(onInputSearch, DEBOUNCE_DELAY));
+const refs = {
+  searchBox: document.querySelector('[data-search]'),
+  countryList: document.querySelector('[data-list]'),
+  countryInfo: document.querySelector('[data-info]')
+};
 
-function onInputSearch(e) {
-  var query = e.target.value.trim();
+function onSearch(e) {
+  const query = e.target.value.trim();
 
-  if (!query) {
-    _markupFunctions.default.deleteCountry();
-
-    _markupFunctions.default.deleteCountries();
-
+  if (query === '') {
+    removeElement(refs.countryInfo);
+    removeElement(refs.countryList);
     return;
   }
 
-  e.target.value = query;
+  (0, _fetchCountries.fetchCountries)(query).then(data => {
+    if (data.length > 10) {
+      Notify.info('Too many matches found. Please enter a more specific name.');
+      return;
+    }
 
-  _fetchCountries.default.fetchCountryByName(query).then(renderMarkup).catch(onFetchError);
+    renderMarkup(data);
+  }).catch(err => {
+    removeElement(refs.countryInfo);
+    removeElement(refs.countryList);
+    console.log(err);
+  });
 }
 
-function renderMarkup(countries) {
-  if (countries.length >= 10) {
-    _markupFunctions.default.deleteCountry();
-
-    _markupFunctions.default.deleteCountries();
-
-    _notiflixNotifyAio.Notify.info("Too many matches found. Please enter a more specific name.");
-
-    return;
+function renderMarkup(matches) {
+  if (matches.length > 1) {
+    refs.countryList.innerHTML = makeCountryList(matches);
+    removeElement(refs.countryInfo);
+  } else {
+    refs.countryInfo.innerHTML = makeCountryInfo(matches);
+    removeElement(refs.countryList);
   }
-
-  if (countries.length >= 2 && countries.length < 10) {
-    _markupFunctions.default.deleteCountry();
-
-    _markupFunctions.default.getCountries(countries);
-
-    return;
-  }
-
-  _markupFunctions.default.deleteCountries();
-
-  _markupFunctions.default.getCountryByName(countries);
 }
 
-function onFetchError() {
-  _notiflixNotifyAio.Notify.failure("Oops, there is no country with that name");
-
-  _markupFunctions.default.deleteCountry();
-
-  _markupFunctions.default.deleteCountries();
+function makeCountryList(matches) {
+  return matches.map(({
+    flags,
+    name
+  }) => `<ul class-"country-list"> 
+            <li class="list__item ">
+               <img class="list__img" src="${flags.svg}" alt="${name.official}" width="60" height="40">
+               <p class="list__text">${name.official}</p>
+            </li>
+        </ul>`).join('');
 }
-},{"./css/styles.css":"css/styles.css","lodash.debounce":"../node_modules/lodash.debounce/index.js","notiflix/build/notiflix-notify-aio":"../node_modules/notiflix/build/notiflix-notify-aio.js","./fetchCountries":"fetchCountries.js","./getRefs":"getRefs.js","./markup-functions":"markup-functions.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+function makeCountryInfo(matches) {
+  return matches.map(({
+    name,
+    capital,
+    population,
+    flags,
+    languages
+  }) => `<div class="country__container">
+            <div class="flex items-center gap-3">
+               <img src="${flags.svg}" alt="${name.official}" width="40px" height="20px"/>
+               <h1 class="country__name">${name.official}</h1>
+            </div> 
+            <ul>
+               <li class="py-2"><strong>Capital: </strong> ${capital}</li>
+               <li class="py-2"><strong>Population: </strong> ${population}</li>
+               <li class="py-2"><strong>Languages: </strong> ${Object.values(languages)}</li>
+            </ul> 
+         </div>
+      `).join('');
+}
+
+function removeElement(el) {
+  el.innerHTML = '';
+}
+
+refs.searchBox.addEventListener('input', (0, _lodash.default)(onSearch, 300));
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./css/styles.css":"css/styles.css","./fetchCountries":"fetchCountries.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1339,7 +1298,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58150" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65090" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

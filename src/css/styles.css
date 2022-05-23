@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   box-sizing: border-box;
 }
@@ -56,6 +60,7 @@ p {
   padding: 8px;
   align-items: center;
   border-radius: 5px;
+  gap: 12px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -86,6 +91,7 @@ p {
 .country__container {
   padding: 12px;
   display: flex;
+  flex-direction: column;
   gap: 20px;
   border-radius: 5px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -95,7 +101,6 @@ p {
   font-size: 20px;
   text-transform: uppercase;
   font-weight: bold;
-  margin-bottom: 18px;
 }
 
 .img__container {
